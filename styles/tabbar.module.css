@@ -1,0 +1,15 @@
+.tabbar {
+  @apply flex md:hidden flex-row items-center justify-around px-8 h-16 bg-chartGray-default visible md:invisible fixed bottom-0 w-full text-2xl;
+}
+
+.tabItem {
+  @apply text-gray-500 hover:text-gray-700 cursor-pointer w-20 h-full flex items-center justify-center;
+}
+
+.tabItemActive {
+  @apply bg-gradient-to-t  text-white;
+}
+
+.icon {
+  @apply -mb-1;
+}
