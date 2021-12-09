@@ -31,11 +31,9 @@ export const CoinVolume: React.FC<VolumeProps> = ({
   const coinDummyArray = coinDataArray[0];
 
   const coinArray: any[] = [];
-  console.log(coinDummyArray);
   coinDummyArray
     ?.slice(dataLength, coinDummyArray.length)
     .forEach((item: any) => coinArray.push(Object.values(item)));
-  console.log(coinArray);
 
   const time = dataToArray(coinArray, 0);
   const volumeto = dataToArray(coinArray, 1);

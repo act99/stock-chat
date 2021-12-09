@@ -17,11 +17,11 @@ type Props = {
 const Tab = ({ navigationData, currentRoute, setCurrentRoute }: Props) => {
   const getTabIcon = useCallback((item) => {
     switch (item) {
-      case "Home":
+      case "home":
         return <AiFillHome />;
-      case "Stock":
+      case "stock":
         return <AiOutlineBarChart />;
-      case "Coin":
+      case "coin":
         return <SiBitcoinsv />;
 
       //   case "Profile":

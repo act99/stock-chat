@@ -1,5 +1,7 @@
 import { scaleLinear } from "d3-scale";
 import React from "react";
+import aveCal, { aveCal20Num } from "../../functions/ave-cal";
+import { bollingerCal } from "../../functions/bol-cal";
 import { dataToArray } from "../../functions/data-to-array";
 import { useGetCryptoCompareHistoryQuery } from "../../store/services/cryptoApi";
 type CandleProps = {
@@ -44,13 +46,31 @@ export const CoinCandle: React.FC<CandleProps> = ({
   coinDummyArray
     ?.slice(dataLength, coinDummyArray.length)
     .forEach((item: any) => coinArray.push(Object.values(item)));
-  console.log(coinArray);
 
   const date = dataToArray(coinArray, 0);
   const open = dataToArray(coinArray, 3);
   const close = dataToArray(coinArray, 6);
   const high = dataToArray(coinArray, 1);
   const low = dataToArray(coinArray, 2);
+
+  const bollinger: number[][] = bollingerCal(coinArray, aveCal20Num(close, 20));
+  const bollingerUpper: number[][] = [];
+  const bollingerLower: number[][] = [];
+  for (let i = 0; i < bollinger.length; i++) {
+    bollingerUpper.push([
+      bollinger[i][0],
+      bollinger[i + 1] == undefined ? bollinger[i][0] : bollinger[i + 1][0],
+    ]);
+    bollingerLower.push([
+      bollinger[i][1],
+      bollinger[i + 1] == undefined ? bollinger[i][1] : bollinger[i + 1][1],
+    ]);
+  }
+  // 볼린저 밴드가 밀려서 사용함. (한번 손 대야 할듯)
+  for (let i = 0; i < 10; i++) {
+    bollingerUpper.unshift([0, 0]);
+    bollingerLower.unshift([0, 0]);
+  }
 
   //***Get data done*/
 
@@ -63,68 +83,68 @@ export const CoinCandle: React.FC<CandleProps> = ({
   const x0 = 0;
   const y0 = 0;
 
-  // const xAxisY = y0 + yAxisLength;
-  //***** */
-  //   const clo5Array: [number, number][] = [];
-  //   const clo20Array: [number, number][] = [];
-  //   const clo60Array: [number, number][] = [];
-  //   const bollingerUpper: number[][] = [];
-  //   const bollingerLower: number[][] = [];
-  //***** */
-
   const dataArray: [
     number,
     number,
     number,
     number,
-    number
-    //   number[],
-    //   number[],
-    //   number[],
-    //   number[],
-    //   number[]
+    number,
+    number[],
+    number[],
+    number[],
+    number[],
+    number[]
   ][] = [];
 
-  // for (let i = 0; i < bollinger.length; i++) {
-  //   bollingerUpper.push([
-  //     bollinger[i][0],
-  //     bollinger[i + 1] == undefined ? bollinger[i][0] : bollinger[i + 1][0],
-  //   ]);
-  //   bollingerLower.push([
-  //     bollinger[i][1],
-  //     bollinger[i + 1] == undefined ? bollinger[i][1] : bollinger[i + 1][1],
-  //   ]);
-  // }
   for (let i = 0; i < date.length; i++) {
-    //   clo5Array.push([clo5[i], clo5[i + 1] == undefined ? clo5[i] : clo5[i + 1]]);
-    //   clo20Array.push([
-    //     clo20[i],
-    //     clo20[i + 1] == undefined ? clo20[i] : clo20[i + 1],
-    //   ]);
-    //   clo60Array.push([
-    //     clo60[i],
-    //     clo60[i + 1] == undefined ? clo60[i] : clo60[i + 1],
-    //   ]);
     dataArray.push([
       date[i],
       open[i],
       close[i],
       high[i],
       low[i],
-      // clo5Array[i],
-      // clo20Array[i],
-      // clo60Array[i],
-      // bollingerUpper[i],
-      // bollingerLower[i],
+      aveCal(close, 5)[i],
+      aveCal(close, 20)[i],
+      aveCal(close, 60)[i],
+      bollingerUpper[i],
+      bollingerLower[i],
     ]);
   }
 
   const dataYMax = dataArray.reduce(
-    (max, [_, open, close, high, low]) => Math.max(max, high),
+    (
+      max,
+      [
+        _,
+        open,
+        close,
+        high,
+        low,
+        clo5,
+        clo20,
+        clo60,
+        bollingerUpper,
+        bollingerLower,
+      ]
+    ) => Math.max(max, high),
     -Infinity
   );
   const dataYMin = dataArray.reduce(
-    (min, [_, open, close, high, low]) => Math.min(min, low),
+    (
+      min,
+      [
+        _,
+        open,
+        close,
+        high,
+        low,
+        clo5,
+        clo20,
+        clo60,
+        bollingerUpper,
+        bollingerLower,
+      ]
+    ) => Math.min(min, low),
     +Infinity
   );
 
@@ -140,7 +160,6 @@ export const CoinCandle: React.FC<CandleProps> = ({
       xValue.push(date[Math.round(date.length / 12) * i]);
     }
     // xValue.reverse();
-    // console.log(xValue);
     return xValue;
   };
   generateDate();
@@ -227,11 +246,11 @@ export const CoinCandle: React.FC<CandleProps> = ({
               high,
               low,
               //************************** */
-              // clo5,
-              // clo20,
-              // clo60,
-              // bolUpper,
-              // bolLower,
+              clo5,
+              clo20,
+              clo60,
+              bolUpper,
+              bolLower,
               //************************** */
             ],
             index
@@ -249,83 +268,47 @@ export const CoinCandle: React.FC<CandleProps> = ({
               .domain([dataYMin, dataYMax])
               .range([y0, yAxisLength]);
             const fill = close > open ? "#4AFA9A" : "#E33F64";
-            // console.log(scaleY(max));
-            // console.log(scaleY(min));
+
             return (
               <g key={index}>
                 {/* 선행스팬 후행스팬 구름형성에 필요한 빗금 */}
-                {/* <line
-                      stroke="red"
-                      x1={x + (barPlothWidth - sidePadding) / 2}
-                      x2={xX + (barPlothWidth - sidePadding) / 2}
-                      y1={yAxisLength - scaleY(clo5)}
-                      y2={yAxisLength - scaleY(clo5)}
-                    /> */}
                 //************************** */
-                {/* {bolUpper[0] != bolUpper[1] && bollingerUpper[index][0] != 0 ? (
-                    <line
-                      stroke="blue"
-                      x1={x + (barPlothWidth - sidePadding) / 2}
-                      x2={xX + (barPlothWidth - sidePadding) / 2}
-                      y1={yAxisLength - scaleY(bolUpper[0])}
-                      y2={yAxisLength - scaleY(bolUpper[1])}
-                    />
-                  ) : null}
-                  {bolLower[0] != bolLower[1] && bollingerUpper[index][0] != 0 ? (
-                    <line
-                      stroke="blue"
-                      x1={x + (barPlothWidth - sidePadding) / 2}
-                      x2={xX + (barPlothWidth - sidePadding) / 2}
-                      y1={yAxisLength - scaleY(bolLower[0])}
-                      y2={yAxisLength - scaleY(bolLower[1])}
-                    />
-                  ) : null}
-                  {bolLower[0] != bolLower[1] && bollingerUpper[index][0] != 0 ? (
-                    <line
-                      stroke="blue"
-                      x1={x + (barPlothWidth - sidePadding)}
-                      x2={x + (barPlothWidth - sidePadding)}
-                      y1={
-                        scaleY(bolUpper[0]) < scaleY(bolUpper[1])
-                          ? yAxisLength - scaleY(bolUpper[0])
-                          : yAxisLength - scaleY(bolUpper[1])
-                      }
-                      y2={
-                        scaleY(bolLower[0]) < scaleY(bolLower[1])
-                          ? yAxisLength - scaleY(bolLower[1])
-                          : yAxisLength - scaleY(bolLower[0])
-                      }
-                      // y2={yAxisLength - scaleY(bolLower[1])}
-                    />
-                  ) : null}
-  
-                  {clo5[0] > dataYMin && clo5[0] != clo5[1] ? (
-                    <line
-                      stroke="green"
-                      x1={x + (barPlothWidth - sidePadding) / 2}
-                      x2={xX + (barPlothWidth - sidePadding) / 2}
-                      y1={yAxisLength - scaleY(clo5[0])}
-                      y2={yAxisLength - scaleY(clo5[1])}
-                    />
-                  ) : null}
-                  {clo20[0] > dataYMin && clo20[0] != clo20[1] ? (
-                    <line
-                      stroke="red"
-                      x1={x + (barPlothWidth - sidePadding) / 2}
-                      x2={xX + (barPlothWidth - sidePadding) / 2}
-                      y1={yAxisLength - scaleY(clo20[0])}
-                      y2={yAxisLength - scaleY(clo20[1])}
-                    />
-                  ) : null}
-                  {clo60[0] > dataYMin && clo60[0] != clo60[1] ? (
-                    <line
-                      stroke="gold"
-                      x1={x + (barPlothWidth - sidePadding) / 2}
-                      x2={xX + (barPlothWidth - sidePadding) / 2}
-                      y1={yAxisLength - scaleY(clo60[0])}
-                      y2={yAxisLength - scaleY(clo60[1])}
-                    />
-                  ) : null} */}
+                {bolUpper[0] != bolUpper[1] && bollingerUpper[index][0] != 0 ? (
+                  <line
+                    stroke="blue"
+                    x1={x + (barPlothWidth - sidePadding) / 2}
+                    x2={xX + (barPlothWidth - sidePadding) / 2}
+                    y1={yAxisLength - scaleY(bolUpper[0])}
+                    y2={yAxisLength - scaleY(bolUpper[1])}
+                  />
+                ) : null}
+                {bolLower[0] != bolLower[1] && bollingerUpper[index][0] != 0 ? (
+                  <line
+                    stroke="blue"
+                    x1={x + (barPlothWidth - sidePadding) / 2}
+                    x2={xX + (barPlothWidth - sidePadding) / 2}
+                    y1={yAxisLength - scaleY(bolLower[0])}
+                    y2={yAxisLength - scaleY(bolLower[1])}
+                  />
+                ) : null}
+                {bolLower[0] != bolLower[1] && bollingerUpper[index][0] != 0 ? (
+                  <line
+                    stroke="blue"
+                    x1={x + (barPlothWidth - sidePadding)}
+                    x2={x + (barPlothWidth - sidePadding)}
+                    y1={
+                      scaleY(bolUpper[0]) < scaleY(bolUpper[1])
+                        ? yAxisLength - scaleY(bolUpper[0])
+                        : yAxisLength - scaleY(bolUpper[1])
+                    }
+                    y2={
+                      scaleY(bolLower[0]) < scaleY(bolLower[1])
+                        ? yAxisLength - scaleY(bolLower[1])
+                        : yAxisLength - scaleY(bolLower[0])
+                    }
+                    // y2={yAxisLength - scaleY(bolLower[1])}
+                  />
+                ) : null}
                 //************************** */
                 <line
                   x1={x + (barPlothWidth - sidePadding) / 2}
@@ -342,6 +325,28 @@ export const CoinCandle: React.FC<CandleProps> = ({
                   // 시가 종가 최대 최소값의 차
                   height={scaleY(max) - scaleY(min)}
                 ></rect>
+                <line
+                  stroke="red"
+                  x1={x + (barPlothWidth - sidePadding) / 2}
+                  x2={xX + (barPlothWidth - sidePadding) / 2}
+                  y1={yAxisLength - scaleY(clo20[0])}
+                  y2={yAxisLength - scaleY(clo20[1])}
+                />
+                <line
+                  stroke="green"
+                  x1={x + (barPlothWidth - sidePadding) / 2}
+                  x2={xX + (barPlothWidth - sidePadding) / 2}
+                  y1={yAxisLength - scaleY(clo5[0])}
+                  y2={yAxisLength - scaleY(clo5[1])}
+                />
+                <line
+                  stroke="gold"
+                  x1={x + (barPlothWidth - sidePadding) / 2}
+                  x2={xX + (barPlothWidth - sidePadding) / 2}
+                  y1={yAxisLength - scaleY(clo60[0])}
+                  y2={yAxisLength - scaleY(clo60[1])}
+                />
+                )
               </g>
             );
           }
