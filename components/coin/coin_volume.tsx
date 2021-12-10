@@ -42,8 +42,11 @@ export const CoinVolume: React.FC<VolumeProps> = ({
 
   //***Get data done */
 
-  let SVG_VOLUME_WIDTH = typeof width === "number" ? width * 1 : 0;
-  let SVG_VOLUME_HEIGHT = typeof height === "number" ? height * 0.3 : 0;
+  let SVG_VOLUME_WIDTH = width == undefined ? 0 : width * 1;
+  let SVG_VOLUME_HEIGHT = height == undefined ? 0 : height * 0.5;
+
+  // let SVG_VOLUME_WIDTH = typeof width === "number" ? width * 1 : 0;
+  // let SVG_VOLUME_HEIGHT = typeof height === "number" ? height * 0.3 : 0;
   const xForPrice = 75;
   const xAxisLength = SVG_VOLUME_WIDTH - xForPrice;
   const yAxisLength = SVG_VOLUME_HEIGHT * 0.94;
@@ -80,10 +83,7 @@ export const CoinVolume: React.FC<VolumeProps> = ({
         <text x={SVG_VOLUME_WIDTH - x0} y={xAxisY + 10}>
           거래량
         </text>
-        {/* Volume axis */}
-        {/* <line x1={x0} y1={y0} x2={x0} y2={y0 + yAxisLength} stroke="grey" /> */}
 
-        {/* 가로선 작성(css name => lineLight) */}
         {Array.from({ length: numYTicks }).map((_, index) => {
           const y = y0 + index * (yAxisLength / numYTicks);
           const yValue = Math.round(

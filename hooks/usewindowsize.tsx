@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { debounce } from "lodash";
 
 interface Size {
   width: number | undefined;
@@ -12,13 +13,13 @@ export function useWindowSize(): Size {
   });
   useEffect(() => {
     // Handler to call on window resize
-    function handleResize() {
+    const handleResize = debounce(() => {
       // Set window width/height to state
       setWindowSize({
         width: window.innerWidth,
         height: window.innerHeight,
       });
-    }
+    }, 500);
     // Add event listener
     window.addEventListener("resize", handleResize);
     // Call handler right away so state gets updated with initial window size

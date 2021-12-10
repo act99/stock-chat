@@ -73,9 +73,11 @@ export const CoinCandle: React.FC<CandleProps> = ({
   }
 
   //***Get data done*/
+  let SVG_CHART_WIDTH = width == undefined ? 0 : width * 1;
+  let SVG_CHART_HEIGHT = height == undefined ? 0 : height * 0.5;
 
-  let SVG_CHART_WIDTH = typeof width === "number" ? width * 1 : 0;
-  let SVG_CHART_HEIGHT = typeof height === "number" ? height * 0.5 : 0;
+  // let SVG_CHART_WIDTH = typeof width === "number" ? width * 1 : 0;
+  // let SVG_CHART_HEIGHT = typeof height === "number" ? height * 0.5 : 0;
 
   const xForPrice = 75;
   const xAxisLength = SVG_CHART_WIDTH - xForPrice;

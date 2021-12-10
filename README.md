@@ -15,6 +15,9 @@
 `npm i react-tailwind-table`
 `npm install react-table`
 `npm i @types/react-table`
+`npm i styled-components`
+`npm i subscriptions-transport-ws`
+`npm i http-proxy-middleware` => for CORS ERROR
 
 ## apollo & apollo-toolings
 
