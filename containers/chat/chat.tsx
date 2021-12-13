@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-import { useMutation, useSubscription } from "@apollo/client";
+import { useMutation, useQuery, useSubscription } from "@apollo/client";
 import { gql } from "@apollo/client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
   frontCreateChatMutation,
   frontCreateChatMutationVariables,
 } from "../../__generated__/frontChatMutation";
+import { frontChatQuery } from "../../__generated__/frontChatQuery";
 
 type Props = {
   width: number | undefined;
@@ -28,13 +29,13 @@ const CREATE_CHAT = gql`
 `;
 
 const GET_CHAT = gql`
-  query {
-    chat {
+  query frontChatQuery {
+    chats {
       id
-      user
-      text
       createdAt
       updatedAt
+      user
+      text
     }
   }
 `;
@@ -75,7 +76,9 @@ const Chat: React.FC<Props> = ({ width, height }) => {
       }}
       className=" bg-black flex flex-col justify-center items-center"
     >
-      <div className=" w-72 h-5/6  bg-chartGray-default"></div>
+      <div className=" w-72 h-5/6  bg-chartGray-default">
+        <Messages width={width} height={height} />
+      </div>
       <form className="flex flex-col my-5" onSubmit={handleSubmit(onSubmit)}>
         <input
           className=" bg-gray-300 mb-2"
@@ -93,8 +96,31 @@ const Chat: React.FC<Props> = ({ width, height }) => {
   );
 };
 
-// const Messages = (chats: Chats) => {
-//   return <div></div>;
-// };
+const Messages: React.FC<Props> = ({ width, height }) => {
+  const { data, loading } = useQuery<frontChatQuery>(GET_CHAT, {
+    variables: {},
+  });
+  // useEffect(() => {}, [input]);
+  // const chatData = data?.chat.map((item) => item);
+  // const chatDummyArray: any[] | undefined = [];
+  // chatData?.forEach((item) => chatDummyArray.push(item));
+
+  console.log(data?.chats.map((item) => item.user));
+
+  return (
+    <ul>
+      {data?.chats.map((item, index) => {
+        return (
+          <li key={index} className="flex flex-row">
+            <h3 className=" mx-2 text-white">{item.id}: </h3>
+            <h3 className=" mx-2 text-white">{item.user}: </h3>
+            <h3 className=" text-white">{item.text}</h3>
+          </li>
+        );
+      })}
+      <li></li>
+    </ul>
+  );
+};
 
 export default Chat;

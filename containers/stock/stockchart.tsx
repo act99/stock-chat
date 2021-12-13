@@ -17,6 +17,7 @@ export const StockChart: React.FC<Props> = ({ width, height }) => {
   const { data, loading } = useQuery<frontStockQuery>(STOCK_QUERY, {
     variables: {},
   });
+  console.log(data);
 
   // const count = useSelector((state: RootState) => state.counter.count);
   // const dispatch = useDispatch();
