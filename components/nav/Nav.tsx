@@ -26,7 +26,7 @@ const Nav = ({ navigationData, currentRoute, setCurrentRoute }: Props) => {
               currentRoute === item && styles.selectedNavItem,
             ])}
           >
-            <Link key={index} href={`/${item}`}>
+            <Link key={index} href={item == "home" ? "/" : `/${item}`}>
               {item}
             </Link>
           </li>

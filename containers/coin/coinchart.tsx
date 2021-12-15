@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { CoinCandle } from "../../components/coin/coin_candle";
 import { CoinVolume } from "../../components/coin/coin_volume";
+import RealtimeVolume from "../../components/coin/realtimeVolume";
 
 type Props = {
   width: number | undefined;
