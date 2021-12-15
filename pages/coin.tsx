@@ -13,7 +13,7 @@ export const Coin = ({}) => {
     <div className="bg-chartGray-default flex-col flex">
       <div className="flex flex-row">
         <CoinChart
-          width={size.width == undefined ? undefined : size.width * 0.6}
+          width={size.width == undefined ? undefined : size.width * 1}
           height={size.height}
         />
         <Chat

@@ -1,6 +1,7 @@
 import React from "react";
 import { dataToArray } from "../../functions/data-to-array";
 import { useGetCryptoCompareVolumeQuery } from "../../store/services/cryptoApi";
+import LoadingComponent from "../loading/loading";
 
 type VolumeProps = {
   width: number | undefined;
@@ -42,8 +43,9 @@ export const CoinVolume: React.FC<VolumeProps> = ({
 
   //***Get data done */
 
-  let SVG_VOLUME_WIDTH = width == undefined ? 0 : width * 1;
-  let SVG_VOLUME_HEIGHT = height == undefined ? 0 : height * 0.5;
+  let SVG_VOLUME_WIDTH =
+    typeof width === "number" ? (width > 768 ? 768 : width * 1) : 0;
+  let SVG_VOLUME_HEIGHT = 300;
 
   // let SVG_VOLUME_WIDTH = typeof width === "number" ? width * 1 : 0;
   // let SVG_VOLUME_HEIGHT = typeof height === "number" ? height * 0.3 : 0;
@@ -76,7 +78,9 @@ export const CoinVolume: React.FC<VolumeProps> = ({
   const barPlotWidth = xAxisLength / dateVolume.length;
   // const testYMax = dateVolume.map((item) => Math.max.apply(item[1]), Infinity);
 
-  return (
+  return isLoading ? (
+    <LoadingComponent />
+  ) : (
     <div>
       <svg width={SVG_VOLUME_WIDTH} height={SVG_VOLUME_HEIGHT}>
         <line x1={x0} y1={xAxisY} x2={x0 + xAxisLength} y2={xAxisY} />

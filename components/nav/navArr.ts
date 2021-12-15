@@ -1,1 +1,1 @@
-export default ["home", "stock", "coin"];
+export default ["home", "coin", "stock"];
