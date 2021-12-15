@@ -1,22 +1,32 @@
 import {
-  ApolloClient,
-  createHttpLink,
-  HttpLink,
-  InMemoryCache,
-  makeVar,
   split,
+  HttpLink,
+  makeVar,
+  ApolloClient,
+  InMemoryCache,
 } from "@apollo/client";
-import { WebSocketLink } from "@apollo/client/link/ws";
 import { getMainDefinition } from "@apollo/client/utilities";
+import { WebSocketLink } from "@apollo/client/link/ws";
+import { userInfo } from "os";
+import { SubscriptionClient } from "subscriptions-transport-ws";
+import ws from "ws";
 
 export const isLoggedInVar = makeVar(false);
 
-const httpLink = createHttpLink({
+const httpLink = new HttpLink({
   uri: "http://localhost:4000/graphql",
 });
 
 // const wsLink = new WebSocketLink({
-//   uri: `ws://localhost:4000/graphql`,
+//   uri: "ws://localhost:4000/graphql",
+//   options: {
+//     reconnect: true,
+//     connectionParams: () => ({}),
+//   },
+// });
+
+// const wsLink = new WebSocketLink({
+//   uri: "ws://localhost:4000/graphql",
 //   options: {
 //     reconnect: true,
 //     connectionParams: {},
@@ -37,8 +47,14 @@ const httpLink = createHttpLink({
 //     )
 //   : httpLink;
 
+// export const client = new ApolloClient({
+//   link: httpLink,
+//   cache: new InMemoryCache(),
+// });
+
 export const client = new ApolloClient({
   // link: link,
+
   link: httpLink,
   cache: new InMemoryCache({
     typePolicies: {

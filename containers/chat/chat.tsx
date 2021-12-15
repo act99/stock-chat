@@ -1,6 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
-import { useMutation, useQuery, useSubscription } from "@apollo/client";
+import {
+  resetCaches,
+  useMutation,
+  useQuery,
+  useSubscription,
+} from "@apollo/client";
 import { gql } from "@apollo/client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -8,6 +13,7 @@ import {
   frontCreateChatMutationVariables,
 } from "../../__generated__/frontChatMutation";
 import { frontChatQuery } from "../../__generated__/frontChatQuery";
+import { client } from "../../apollo";
 
 type Props = {
   width: number | undefined;
@@ -28,6 +34,27 @@ const CREATE_CHAT = gql`
   }
 `;
 
+export const getChatProps = async () => {
+  const { data } = await client.query({
+    query: gql`
+      query frontChatQuery {
+        chats {
+          id
+          createdAt
+          updatedAt
+          user
+          text
+        }
+      }
+    `,
+  });
+  return {
+    props: {
+      chats: data.chats,
+    },
+  };
+};
+
 const GET_CHAT = gql`
   query frontChatQuery {
     chats {
@@ -41,32 +68,51 @@ const GET_CHAT = gql`
 `;
 
 const Chat: React.FC<Props> = ({ width, height }) => {
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    formState: { errors },
-  } = useForm<Inputs>();
+  const [nickname, setNickname] = useState("따끈한 메밀호빵");
+  const { data } = useQuery<frontChatQuery>(GET_CHAT, {
+    variables: {},
+    pollInterval: 500,
+  });
+
+  const { register, handleSubmit, getValues, formState, reset } =
+    useForm<Inputs>({
+      defaultValues: { user: nickname },
+    });
   const onCompleted = (data: frontCreateChatMutation) => {
     const {
       createChat: { ok },
     } = data;
     if (ok) {
+      console.log(data);
       console.log("Okay! Chat!");
     }
   };
+
   const [createChatMutation, { data: createChatMutationResult, loading }] =
     useMutation<frontCreateChatMutation, frontCreateChatMutationVariables>(
       CREATE_CHAT,
-      { onCompleted }
+      {
+        onCompleted,
+        // refetchQueries: [
+        //   {
+        //     query: GET_CHAT,
+        //   },
+        // ],
+      }
     );
 
   const onSubmit: SubmitHandler<Inputs> = () => {
     if (!loading) {
       const { user, text } = getValues();
       createChatMutation({ variables: { createChatDto: { user, text } } });
+      setNickname(user);
     }
   };
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset({ user: nickname, text: "" });
+    }
+  }, [formState, reset]);
 
   return (
     <div
@@ -77,7 +123,20 @@ const Chat: React.FC<Props> = ({ width, height }) => {
       className=" bg-black flex flex-col justify-center items-center"
     >
       <div className=" w-72 h-5/6  bg-chartGray-default">
-        <Messages width={width} height={height} />
+        (
+        <ul>
+          {data?.chats.map((item: any, index: number) => {
+            return (
+              <li key={index} className="flex flex-row">
+                <h3 className=" mx-2 text-white">{item.id}: </h3>
+                <h3 className=" mx-2 text-white">{item.user}: </h3>
+                <h3 className=" text-white">{item.text}</h3>
+              </li>
+            );
+          })}
+          <li></li>
+        </ul>
+        )
       </div>
       <form className="flex flex-col my-5" onSubmit={handleSubmit(onSubmit)}>
         <input
@@ -93,33 +152,6 @@ const Chat: React.FC<Props> = ({ width, height }) => {
         </button>
       </form>
     </div>
-  );
-};
-
-const Messages: React.FC<Props> = ({ width, height }) => {
-  const { data, loading } = useQuery<frontChatQuery>(GET_CHAT, {
-    variables: {},
-  });
-  // useEffect(() => {}, [input]);
-  // const chatData = data?.chat.map((item) => item);
-  // const chatDummyArray: any[] | undefined = [];
-  // chatData?.forEach((item) => chatDummyArray.push(item));
-
-  console.log(data?.chats.map((item) => item.user));
-
-  return (
-    <ul>
-      {data?.chats.map((item, index) => {
-        return (
-          <li key={index} className="flex flex-row">
-            <h3 className=" mx-2 text-white">{item.id}: </h3>
-            <h3 className=" mx-2 text-white">{item.user}: </h3>
-            <h3 className=" text-white">{item.text}</h3>
-          </li>
-        );
-      })}
-      <li></li>
-    </ul>
   );
 };
 
