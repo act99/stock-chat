@@ -33,7 +33,7 @@ const CoinHot: React.FC<CoinHotProps> = ({ data }) => {
       <h3 className=" py-5 text-3xl font-extrabold">Market Trends</h3>
       <div className=" flex flex-row">
         <CoinInfoCard
-          data={volumeDescData()[changeDescData().length - 1]}
+          data={volumeDescData()[volumeDescData().length - 1]}
           title="Highest 24H Turnover"
         />
         <CoinInfoCard data={volumeDescData()[0]} title="Lowest 24H Turnover" />

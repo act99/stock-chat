@@ -7,6 +7,7 @@ import { dataToArray } from "../../functions/data-to-array";
 import { frontStockQuery } from "../../__generated__/frontStockQuery";
 import { StockCandle } from "../../components/stock/stock_candle";
 import { StockVolume } from "../../components/stock/stock_volume";
+import LoadingComponent from "../../components/loading/loading";
 
 type Props = {
   width: number | undefined;
@@ -63,7 +64,9 @@ export const StockChart: React.FC<Props> = ({ width, height }) => {
     };
   };
 
-  return (
+  return loading ? (
+    <LoadingComponent />
+  ) : (
     <div onWheel={dataWheelHandler}>
       <StockCandle
         width={width}

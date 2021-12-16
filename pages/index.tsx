@@ -5,6 +5,7 @@ import LoadingComponent from "../components/loading/loading";
 import { useGetCryptosQuery } from "../store/services/cryptoApi";
 import CoinHot from "../containers/coin/coinHot";
 import MilBilCal from "../functions/milBilCal";
+import Slider from "../components/slider/slider";
 
 type ColumnProps = {
   value: string;
@@ -98,6 +99,7 @@ const Home: NextPage = () => {
       <Head>Hi</Head>
       <div className="flex flex-col bg-gray-200">
         <div className=" flex flex-col  justify-center items-center">
+          <Slider data={tableData} />
           <CoinHot data={tableData} />
           <CoinTable columns={columns} data={tableData} />
         </div>

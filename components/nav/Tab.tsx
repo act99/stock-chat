@@ -40,7 +40,7 @@ const Tab = ({ navigationData, currentRoute, setCurrentRoute }: Props) => {
           ])}
           onClick={() => setCurrentRoute(item)}
         >
-          <Link key={index} href={`/${item}`}>
+          <Link key={index} href={item == "home" ? "/" : `/${item}`}>
             <span className={styles.icon}>{getTabIcon(item)}</span>
           </Link>
         </span>
