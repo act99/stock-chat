@@ -3,6 +3,8 @@ import Head from "next/head";
 import { CoinTable } from "../containers/coin/coinTable";
 import LoadingComponent from "../components/loading/loading";
 import { useGetCryptosQuery } from "../store/services/cryptoApi";
+import CoinHot from "../containers/coin/coinHot";
+import MilBilCal from "../functions/milBilCal";
 
 type ColumnProps = {
   value: string;
@@ -88,7 +90,6 @@ const Home: NextPage = () => {
   ];
 
   const tableData = data?.data?.coins;
-  console.log(tableData);
   if (isLoading) {
     return <LoadingComponent />;
   }
@@ -97,6 +98,7 @@ const Home: NextPage = () => {
       <Head>Hi</Head>
       <div className="flex flex-col bg-gray-200">
         <div className=" flex flex-col  justify-center items-center">
+          <CoinHot data={tableData} />
           <CoinTable columns={columns} data={tableData} />
         </div>
       </div>
