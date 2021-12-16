@@ -15,7 +15,4 @@ export const store = configureStore({
   },
 });
 
-// export const wrapper = createWrapper(makeStore, {
-//   debug: process.env.NODE_ENV !== "production",
-// });
 setupListeners(store.dispatch);

@@ -1,5 +1,5 @@
 .navbar {
-  @apply hidden md:flex flex-row items-center justify-between px-8 h-16 bg-chartGray-default border-4 border-black;
+  @apply hidden md:flex flex-row justify-between px-8 h-16 bg-chartGray-default border-4 border-black;
 }
 
 .logo {
