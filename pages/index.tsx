@@ -5,7 +5,7 @@ import LoadingComponent from "../components/loading/loading";
 import { useGetCryptosQuery } from "../store/services/cryptoApi";
 import CoinHot from "../containers/coin/coinHot";
 import MilBilCal from "../functions/milBilCal";
-import Slider from "../components/slider/slider";
+import Slider from "../components/slider/coinSliderCard";
 import HomeSlider from "../containers/slider/homeSlider";
 
 type ColumnProps = {

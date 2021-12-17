@@ -1,5 +1,6 @@
 import React from "react";
 import { dataToArray } from "../../functions/data-to-array";
+import MilBilCal from "../../functions/milBilCal";
 import { useGetCryptoCompareVolumeQuery } from "../../store/services/cryptoApi";
 import LoadingComponent from "../loading/loading";
 
@@ -107,13 +108,14 @@ export const CoinVolume: React.FC<VolumeProps> = ({
                 y={y + SVG_VOLUME_HEIGHT * 0.05}
                 fontSize="12"
               >
-                {/* volume 값 k로 치환 */}
+                {MilBilCal(yValue)}
+                {/* volume 값 k로 치환
                 {Math.abs(yValue) > 999
                   ? Math.sign(yValue) *
                       (Math.round(Math.abs(yValue) / 100) / 10) +
                     "k"
                   : Math.sign(yValue) * Math.abs(yValue)}
-                {/* {yValue} */}
+                {yValue} */}
               </text>
             </g>
           );

@@ -16,7 +16,15 @@ const Nav = ({ navigationData, currentRoute, setCurrentRoute }: Props) => {
   };
   return (
     <nav className={styles.navbar}>
-      <Image src={logo} layout="fixed" height={50} width={90} />
+      <Link href={"/"}>
+        <Image
+          src={logo}
+          layout="fixed"
+          height={50}
+          width={90}
+          className=" cursor-pointer"
+        />
+      </Link>
       <ul className={styles.navItems}>
         {navigationData.map((item, index) => (
           <li

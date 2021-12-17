@@ -10,7 +10,7 @@ interface Size {
 export const Coin = ({}) => {
   const size: Size = useWindowSize();
   return (
-    <div className="bg-chartGray-default flex-col flex">
+    <div className="bg-chartGray-default flex-col flex w-screen h-screen">
       <div className="flex flex-row">
         <CoinChart
           width={size.width == undefined ? undefined : size.width * 1}
