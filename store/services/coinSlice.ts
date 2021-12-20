@@ -1,33 +1,26 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface CounterState {
-  value: number;
+export interface CoinState {
+  coin: string;
 }
 
-const initialState: CounterState = {
-  value: 0,
+const initialState: CoinState = {
+  coin: "BTC",
 };
 
-export const counterSlice = createSlice({
-  name: "counter",
+export const coinSlice = createSlice({
+  name: "selectedCoin",
   initialState,
   reducers: {
-    increasement: (state: any) => {
-      state.value += 1;
-    },
-    decreasement: (state: any) => {
-      state.value -= 1;
-    },
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.value += action.payload;
+    selectedCoin: (state: any, action: any) => {
+      state.value = action.payload;
     },
   },
 });
 
-export const { increasement, decreasement, incrementByAmount } =
-  counterSlice.actions;
+export const { selectedCoin } = coinSlice.actions;
 
-export default counterSlice.reducer;
+export default coinSlice.reducer;
 
 // const initialState = {
 //   counter: 0,

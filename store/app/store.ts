@@ -7,16 +7,16 @@ import {
   cryptoHistoryApi,
 } from "../services/cryptoApi";
 
-import counterReducer from "../services/exercise";
-
-import testReducer from "../services/exercise";
+import selectedCoinReducer from "../services/coinSlice";
+import onCoinSelectBtnClickedReducer from "../services/onClickSlice";
 
 export const store = configureStore({
   reducer: {
     [cryptoApi.reducerPath]: cryptoApi.reducer,
     [cryptoHistoryApi.reducerPath]: cryptoHistoryApi.reducer,
     [cryptoCompareHistoryApi.reducerPath]: cryptoCompareHistoryApi.reducer,
-    counter: counterReducer,
+    selectedCoin: selectedCoinReducer,
+    CoinSelectBtnClick: onCoinSelectBtnClickedReducer,
   },
 });
 

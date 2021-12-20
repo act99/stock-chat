@@ -11,20 +11,24 @@ type Props = {
 };
 
 const Nav = ({ navigationData, currentRoute, setCurrentRoute }: Props) => {
-  const onAdminClick = () => {
-    window.location.href = "/login";
-  };
+  // const onAdminClick = () => {
+  //   window.location.href = "/login";
+  // };
+
   return (
     <nav className={styles.navbar}>
       <Link href={"/"}>
-        <Image
-          src={logo}
-          layout="fixed"
-          height={50}
-          width={90}
-          className=" cursor-pointer"
-        />
+        <a>
+          <Image
+            src={logo}
+            layout="fixed"
+            height={50}
+            width={90}
+            className=" cursor-pointer"
+          />
+        </a>
       </Link>
+
       <ul className={styles.navItems}>
         {navigationData.map((item, index) => (
           <li
@@ -40,9 +44,9 @@ const Nav = ({ navigationData, currentRoute, setCurrentRoute }: Props) => {
           </li>
         ))}
       </ul>
-      <button className={styles.actions} onClick={onAdminClick}>
-        Admin
-      </button>
+      <Link href={"/login"}>
+        <button className={styles.actions}>Admin</button>
+      </Link>
     </nav>
   );
 };

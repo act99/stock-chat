@@ -1,5 +1,7 @@
+import { useState } from "react";
 import Chat from "../containers/chat/chat";
 import { CoinChart } from "../containers/coin/coinchart";
+import Test from "../containers/coin/test";
 import { useWindowSize } from "../hooks/usewindowsize";
 
 interface Size {
@@ -8,9 +10,16 @@ interface Size {
 }
 
 export const Coin = ({}) => {
+  const [onClick, setOnClick] = useState(false);
+  const onClickHandler = () => {
+    onClick == false ? setOnClick(true) : setOnClick(false);
+  };
   const size: Size = useWindowSize();
   return (
-    <div className="bg-chartGray-default flex-col flex w-screen h-screen">
+    <div className="bg-chartGray-default flex-col flex w-screen h-auto">
+      <div></div>
+      <button onClick={onClickHandler}>버튼</button>
+      <Test onClick={onClick} />
       <div className="flex flex-row">
         <CoinChart
           width={size.width == undefined ? undefined : size.width * 1}

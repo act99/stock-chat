@@ -36,6 +36,7 @@ export const CoinChart: React.FC<Props> = ({ width, height }) => {
   const onClickListener = () => {
     setName("ETH");
   };
+  console.log(height);
 
   // 추후 1000개 이상의 데이터를 필요로 할 경우 데이터 끌고오기 (아래)
   // setDataLength(
@@ -67,6 +68,13 @@ export const CoinChart: React.FC<Props> = ({ width, height }) => {
         dataLength={dataLength}
         name={name}
       />
+      <div className="flex flex-col justify-center items-center">
+        <h3 className=" text-white">
+          현재 받는 데이터가 매도량과 매수량이 없어서
+        </h3>
+        <h3 className=" text-white">거래량 색깔이 정확하지 않습니다.</h3>
+        <h3 className=" text-white">양해 바랍니다.</h3>
+      </div>
     </div>
   );
 };
