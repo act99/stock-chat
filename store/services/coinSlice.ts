@@ -13,7 +13,7 @@ export const coinSlice = createSlice({
   initialState,
   reducers: {
     selectedCoin: (state: any, action: any) => {
-      state.value = action.payload;
+      state.coin = action.payload;
     },
   },
 });

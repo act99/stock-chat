@@ -13,7 +13,7 @@ export const onClickSlice = createSlice({
   initialState,
   reducers: {
     onCoinSelectBtnClicked: (state: any, action: any) => {
-      state.value = action.payload;
+      state.coinSelected = action.payload;
     },
   },
 });
