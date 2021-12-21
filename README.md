@@ -1,7 +1,9 @@
 # Stock-Chat[Nextjs & Redux & Apollo]
 
+![image](https://blog.kakaocdn.net/dn/dxWWXd/btrosa0dGXd/YSeGIQi0GKkBkdnMDoGgk1/img.gif)
 ![image](https://blog.kakaocdn.net/dn/otK0R/btrnTDWrS9J/cKEjSLrbqDeJ1rvz9nokdK/img.gif)
 ![image](https://blog.kakaocdn.net/dn/OTC8x/btrnrjJMRoV/NKVdn5fJA3jMil5upegoJk/img.gif)
+![image](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcvIB4E%2Fbtrn6PbOjvk%2FoJrjktokLJuGsbDskbj2ak%2Fimg.png)
 
 ## packages
 
