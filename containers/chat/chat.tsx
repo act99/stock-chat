@@ -15,10 +15,10 @@ import {
 import { frontChatQuery } from "../../__generated__/frontChatQuery";
 import { client } from "../../apollo";
 
-type Props = {
-  width: number | undefined;
-  height: number | undefined;
-};
+// type Props = {
+//   width: number | undefined;
+//   height: number | undefined;
+// };
 
 type Inputs = {
   user: string;
@@ -67,7 +67,7 @@ const GET_CHAT = gql`
   }
 `;
 
-const Chat: React.FC<Props> = ({ width, height }) => {
+const Chat: React.FC = () => {
   const [nickname, setNickname] = useState("따끈한 메밀호빵");
   const { data } = useQuery<frontChatQuery>(GET_CHAT, {
     variables: {},
@@ -118,11 +118,11 @@ const Chat: React.FC<Props> = ({ width, height }) => {
     <div
       style={{
         width: 300,
-        height: height == undefined ? undefined : height * 0.86,
+        height: 800,
       }}
       className=" bg-black flex flex-col justify-center items-center"
     >
-      <div className=" w-72 h-5/6  bg-chartGray-default">
+      <div className=" w-72 h-5/6  bg-chartGray-default overflow-y-scroll">
         (
         <ul>
           {data?.chats.map((item: any, index: number) => {

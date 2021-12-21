@@ -96,16 +96,20 @@ const Home: NextPage = () => {
     return <LoadingComponent />;
   }
   return (
-    <div>
-      <Head>Hi</Head>
-      <div className="flex flex-col bg-gray-200">
-        <div className=" flex flex-col  justify-center items-center">
-          <HomeSlider data={tableData} />
-          <CoinHot data={tableData} />
-          <CoinTable columns={columns} data={tableData} />
+    <>
+      <Head>
+        <title>Act99 Chart</title>
+      </Head>
+      <div>
+        <div className="flex flex-col bg-gray-200">
+          <div className=" flex flex-col  justify-center items-center">
+            <HomeSlider data={tableData} />
+            <CoinHot data={tableData} />
+            <CoinTable columns={columns} data={tableData} />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -24,7 +24,7 @@ export const Coin = ({}) => {
   const size: Size = useWindowSize();
   return (
     <>
-      <div className=" relative">
+      <div className="  fixed">
         <div className=" absolute">
           {selectedList == true ? (
             <>
@@ -40,17 +40,14 @@ export const Coin = ({}) => {
             <div></div>
           )}
         </div>
-        <div className="bg-chartGray-default flex-col flex w-screen h-auto">
+        <div className="bg-chartGray-default flex-col flex w-screen  h-screen overflow-hidden ">
           <CoinListTable />
           <div className="flex flex-row">
             <CoinChart
               width={size.width == undefined ? undefined : size.width * 1}
               height={size.height}
             />
-            <Chat
-              width={size.width == undefined ? undefined : size.width * 0.2}
-              height={size.height}
-            />
+            <Chat />
           </div>
         </div>
       </div>
