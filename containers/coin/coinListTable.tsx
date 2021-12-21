@@ -1,81 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useGlobalFilter, useTable } from "react-table";
-import { CoinList } from "../../components/list/coinList";
 import LoadingComponent from "../../components/loading/loading";
-import { CoinTable } from "./coinTable";
 import MilBilCal from "../../functions/milBilCal";
 import { CommonRootState } from "../../store/app/store";
 import { useGetCryptosQuery } from "../../store/services/cryptoApi";
-import { selectedCoin } from "../../store/services/coinSlice";
 import { onCoinSelectBtnClicked } from "../../store/services/onClickSlice";
 
 interface Props {
   // onClick: boolean;
 }
 
-interface ColumnProps {
-  value: string;
-}
-
-const Test: React.FC<Props> = ({}) => {
-  const columns = [
-    {
-      accessor: "iconUrl",
-      Cell: ({ value }: ColumnProps) => (
-        <div className=" flex justify-end">
-          <img src={value} className=" w-5 h-5" />
-        </div>
-      ),
-    },
-    {
-      accessor: "symbol",
-      Cell: ({ value }: ColumnProps) => <h3>{value}</h3>,
-    },
-    {
-      accessor: "price",
-      Cell: ({ value }: ColumnProps) => (
-        <div className=" flex justify-end">
-          <h3>
-            {parseFloat(value) < 100
-              ? parseFloat(value).toLocaleString(undefined, {
-                  maximumFractionDigits: 4,
-                }) +
-                " " +
-                "$"
-              : parseFloat(value).toLocaleString(undefined, {
-                  maximumFractionDigits: 2,
-                }) +
-                " " +
-                "$"}
-          </h3>
-        </div>
-      ),
-    },
-    {
-      accessor: "change",
-      Cell: ({ value }: ColumnProps) => (
-        <div className=" flex justify-end">
-          <h3
-            className={
-              parseFloat(value) < 0 ? "text-red-600" : "text-green-500"
-            }
-          >
-            {value + " " + "%"}
-          </h3>
-        </div>
-      ),
-    },
-    {
-      accessor: "volume",
-      Cell: ({ value }: ColumnProps) => (
-        <div className=" flex justify-end">
-          <h3>{MilBilCal(parseFloat(value)) + ["[USD]"]}</h3>
-        </div>
-      ),
-    },
-  ];
-
+const CoinListTable: React.FC<Props> = ({}) => {
   const { data, isLoading, error } = useGetCryptosQuery("coins");
   const selectedCoin = useSelector(
     (state: CommonRootState) => state.selectedCoin.coin
@@ -148,12 +83,22 @@ const Test: React.FC<Props> = ({}) => {
         </h3>
       </div>
       <div className=" flex flex-col ml-10 text-white ">
-        <h3>24H Turnover [USD]</h3>
-        <h3>{handleCoinData(selectedCoin).volume.toLocaleString()}</h3>
+        <h3>24H Price [USD]</h3>
+        <h3>{handleCoinData(selectedCoin).price.toLocaleString()}</h3>
       </div>
       <div className=" flex flex-col ml-5 text-white ">
         <h3>24H Turnover [USD]</h3>
         <h3>{handleCoinData(selectedCoin).volume.toLocaleString()}</h3>
+      </div>
+      <div className=" flex flex-col ml-5 text-white ">
+        <h3>Number of Exchanges</h3>
+        <h3>
+          {handleCoinData(selectedCoin).numberOfExchanges.toLocaleString()}
+        </h3>
+      </div>
+      <div className=" flex flex-col ml-5 text-white ">
+        <h3>Ranking</h3>
+        <h3>{handleCoinData(selectedCoin).rank.toLocaleString()}</h3>
       </div>
       <div className=" flex flex-col ml-5 text-yellow-500 ">
         <h3>Total Supply</h3>
@@ -165,4 +110,4 @@ const Test: React.FC<Props> = ({}) => {
   );
 };
 
-export default Test;
+export default CoinListTable;

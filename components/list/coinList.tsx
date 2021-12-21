@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useGlobalFilter, useTable } from "react-table";
 import { CommonRootState } from "../../store/app/store";
@@ -68,9 +68,6 @@ export const CoinList: React.FC<Props> = ({ columns, data, onClick }) => {
         className={
           " flex flex-col p-5 w-128 transition-opacity ease-in delay-500 h-192 overflow-y-scroll bg-chartGray-default"
         }
-        //   onClick == true
-        //     ? " flex flex-col p-5 w-128  transition-opacity ease-in delay-500"
-        //     : "flex flex-col p-5 w-128  transition-opacity opacity-30 ease-out delay-500"
       >
         <div className="flex flex-row justify-between pb-5 mb-5">
           <h3 className=" text-white font-bold text-2xl">Crypto Currency</h3>

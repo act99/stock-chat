@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { CoinCandle } from "../../components/coin/coin_candle";
 import { CoinVolume } from "../../components/coin/coin_volume";
 import RealtimeVolume from "../../components/coin/realtimeVolume";
 import LoadingComponent from "../../components/loading/loading";
+import { CommonRootState } from "../../store/app/store";
 import { useGetCryptosQuery } from "../../store/services/cryptoApi";
 
 type Props = {
@@ -14,10 +16,13 @@ export const CoinChart: React.FC<Props> = ({ width, height }) => {
   const { data, isLoading, error } = useGetCryptosQuery("coins");
   const selectData = data?.data?.coins;
 
-  const [name, setName] = useState("LUNA");
   const [defaultLimit, setdefaultLimit] = useState(1000);
   const [dataLength, setDataLength] = useState(900);
   const dataDefaultMinusLength = 18;
+
+  const coinSelecto = useSelector(
+    (state: CommonRootState) => state.selectedCoin.coin
+  );
 
   //** 마우스 휠 컨트롤러 */
   const dataWheelHandler = () => {
@@ -33,9 +38,7 @@ export const CoinChart: React.FC<Props> = ({ width, height }) => {
           );
     };
   };
-  const onClickListener = () => {
-    setName("ETH");
-  };
+
   console.log(height);
 
   // 추후 1000개 이상의 데이터를 필요로 할 경우 데이터 끌고오기 (아래)
@@ -59,22 +62,22 @@ export const CoinChart: React.FC<Props> = ({ width, height }) => {
         height={height}
         defaultLimit={defaultLimit}
         dataLength={dataLength}
-        name={name}
+        name={coinSelecto}
       />
       <CoinVolume
         width={width}
         height={height}
         defaultLimit={defaultLimit}
         dataLength={dataLength}
-        name={name}
+        name={coinSelecto}
       />
-      <div className="flex flex-col justify-center items-center">
+      {/* <div className="flex flex-col justify-center items-center">
         <h3 className=" text-white">
-          현재 받는 데이터가 매도량과 매수량이 없어서
+          현재 받는 데이터가 시가, 종가, 고가, 저가 밖에 없기 때문에
         </h3>
-        <h3 className=" text-white">거래량 색깔이 정확하지 않습니다.</h3>
+        <h3 className=" text-white">거래량과 캔들 차트가 정확하지 않습니다.</h3>
         <h3 className=" text-white">양해 바랍니다.</h3>
-      </div>
+      </div> */}
     </div>
   );
 };

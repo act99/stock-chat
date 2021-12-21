@@ -118,7 +118,7 @@ const Chat: React.FC<Props> = ({ width, height }) => {
     <div
       style={{
         width: 300,
-        height: height == undefined ? undefined : height * 0.9,
+        height: height == undefined ? undefined : height * 0.86,
       }}
       className=" bg-black flex flex-col justify-center items-center"
     >
@@ -128,7 +128,6 @@ const Chat: React.FC<Props> = ({ width, height }) => {
           {data?.chats.map((item: any, index: number) => {
             return (
               <li key={index} className="flex flex-row">
-                <h3 className=" mx-2 text-white">{item.id}: </h3>
                 <h3 className=" mx-2 text-white">{item.user}: </h3>
                 <h3 className=" text-white">{item.text}</h3>
               </li>

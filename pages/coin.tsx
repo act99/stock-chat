@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { CoinList } from "../components/list/coinList";
 import Chat from "../containers/chat/chat";
 import { CoinChart } from "../containers/coin/coinchart";
-import Test from "../containers/coin/test";
+import CoinListTable from "../containers/coin/coinListTable";
 import { CoinColumns } from "../etc/coinColumns";
 import { useWindowSize } from "../hooks/usewindowsize";
 import { CommonRootState } from "../store/app/store";
@@ -41,7 +41,7 @@ export const Coin = ({}) => {
           )}
         </div>
         <div className="bg-chartGray-default flex-col flex w-screen h-auto">
-          <Test />
+          <CoinListTable />
           <div className="flex flex-row">
             <CoinChart
               width={size.width == undefined ? undefined : size.width * 1}
