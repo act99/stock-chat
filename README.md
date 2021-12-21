@@ -39,6 +39,5 @@ If you didn't check your node version, You can't use codegen!!
 - get / delete dataArray objects with Mouse scroll (o)
 - making line chart (o)
 - making bollinger band (o)
-- stock router (x)
-- search (x)
-- chatting (x)
+- search (o)
+- chatting (o)
