@@ -20,8 +20,8 @@ export const CoinChart: React.FC<Props> = ({ width, height }) => {
   const [dataLength, setDataLength] = useState(900);
   const dataDefaultMinusLength = 18;
 
-  const coinSelecto = useSelector(
-    (state: CommonRootState) => state.selectedCoin.coin
+  const coinSelecto = useSelector((state: CommonRootState) =>
+    state.selectedCoin.coin.replace("*", "")
   );
 
   //** 마우스 휠 컨트롤러 */

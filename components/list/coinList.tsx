@@ -97,6 +97,7 @@ export const CoinList: React.FC<Props> = ({ columns, data, onClick }) => {
                   {...row.getRowProps({
                     onClick: () => {
                       const rowSymbol: string = row.cells[1].value;
+                      console.log(rowSymbol);
                       onCoinClick(rowSymbol);
                       console.log(row.cells[1].value);
                       console.log(coinSelecto);
