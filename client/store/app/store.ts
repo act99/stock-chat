@@ -9,14 +9,12 @@ import {
 
 import selectedCoinReducer from "../services/coinSlice";
 import onCoinSelectBtnClickedReducer from "../services/onClickSlice";
-import { stockApi } from "../services/stockApi";
 
 export const store = configureStore({
   reducer: {
     [cryptoApi.reducerPath]: cryptoApi.reducer,
     [cryptoHistoryApi.reducerPath]: cryptoHistoryApi.reducer,
     [cryptoCompareHistoryApi.reducerPath]: cryptoCompareHistoryApi.reducer,
-    [stockApi.reducerPath]: stockApi.reducer,
     selectedCoin: selectedCoinReducer,
     CoinSelectBtnClick: onCoinSelectBtnClickedReducer,
   },
