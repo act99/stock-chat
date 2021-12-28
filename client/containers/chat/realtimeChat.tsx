@@ -1,8 +1,8 @@
-import { useSockets } from "../context/socket.context";
+import { useSockets } from "../../context/socket.context";
 import { useEffect, useRef } from "react";
-import EVENTS from "../config/chat/events";
+import EVENTS from "../../config/chat/events";
 
-export default function Test() {
+export default function RealtimeChat() {
   const { socket, username, setUsername } = useSockets();
   const usernameRef = useRef<any>(null);
 
@@ -26,15 +26,31 @@ export default function Test() {
   return (
     <div>
       {!username && (
-        <div>
-          <div>
-            <input placeholder="Username" ref={usernameRef} />
-            <button onClick={handleSetUsername}>START</button>
+        <div className=" w-96 h-full bg-chartGray-default border-8 border-black">
+          <div className=" flex flex-col p-5 items-center justify-center">
+            <h3 className=" font-bold text-yellow-500 font-serif text-4xl mb-24 mt-10">
+              Realtime Chat!
+            </h3>
+            <h3 className=" font-bold text-yellow-500 font-serif text-2xl mt-20 mb-10">
+              Enter your Nickname.
+            </h3>
+            <input
+              maxLength={15}
+              placeholder="15자 이내로 작성해주세요"
+              ref={usernameRef}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-white font-bold leading-tight focus:outline-none focus:shadow-outline bg-yellow-500 text-center placeholder-gray-100 my-11"
+            />
+            <button
+              onClick={handleSetUsername}
+              className=" mt-52 text-white bg-yellow-500 w-56 h-14 rounded-xl font-bold text-lg"
+            >
+              START
+            </button>
           </div>
         </div>
       )}
       {username && (
-        <div>
+        <div className=" w-96 h-full bg-chartGray-default border-8 border-black">
           <RoomsContainer />
           <MessagesContainer />
         </div>
@@ -133,22 +149,34 @@ function RoomsContainer() {
 
   return (
     <nav>
-      <div>
-        <input ref={newRoomRef} placeholder="Room name" />
-        <button onClick={handleCreateRoom}>CREATE ROOM</button>
+      <div className="  flex flex-col p-5 items-center justify-center">
+        <input
+          maxLength={15}
+          ref={newRoomRef}
+          placeholder="Room name"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-white font-bold leading-tight focus:outline-none focus:shadow-outline bg-yellow-500 text-center placeholder-gray-100 my-11"
+        />
+        <button
+          onClick={handleCreateRoom}
+          className=" mt-5 text-white bg-yellow-500 w-28 h-10 rounded-xl font-bold text-sm"
+        >
+          CREATE ROOM
+        </button>
       </div>
 
-      <ul>
+      <ul className=" bg-yellow-500 text-white m-5 p-5">
         {Object.keys(rooms).map((key) => {
           return (
             <div key={key}>
-              <button
-                disabled={key === roomId}
-                title={`Join {rooms[key]}`}
-                onClick={() => handleJoinRoom(key)}
-              >
-                rooms[key].name
-              </button>
+              <li>
+                <button
+                  disabled={key === roomId}
+                  title={`Join ${rooms[key]}`}
+                  onClick={() => handleJoinRoom(key)}
+                >
+                  {rooms[key].name}
+                </button>
+              </li>
             </div>
           );
         })}

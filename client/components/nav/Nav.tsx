@@ -31,17 +31,17 @@ const Nav = ({ navigationData, currentRoute, setCurrentRoute }: Props) => {
 
       <ul className={styles.navItems}>
         {navigationData.map((item, index) => (
-          <li
-            key={index}
-            className={classNames([
-              styles.navItem,
-              currentRoute === item && styles.selectedNavItem,
-            ])}
-          >
-            <Link key={index} href={item == "home" ? "/" : `/${item}`}>
+          <Link key={index} href={item == "home" ? "/" : `/${item}`}>
+            <li
+              key={index}
+              className={classNames([
+                styles.navItem,
+                currentRoute === item && styles.selectedNavItem,
+              ])}
+            >
               {item}
-            </Link>
-          </li>
+            </li>
+          </Link>
         ))}
       </ul>
       <Link href={"/login"}>

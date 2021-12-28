@@ -74,8 +74,8 @@ export const CoinCandle: React.FC<CandleProps> = ({
 
   //***Get data done*/
   let SVG_CHART_WIDTH =
-    typeof width === "number" ? (width > 768 ? 768 : width * 1) : 0;
-  let SVG_CHART_HEIGHT = 300;
+    typeof width === "number" ? (width > 830 ? 830 : width * 1) : 0;
+  let SVG_CHART_HEIGHT = 400;
 
   // let SVG_CHART_WIDTH = typeof width === "number" ? width * 1 : 0;
   // let SVG_CHART_HEIGHT = typeof height === "number" ? height * 0.5 : 0;

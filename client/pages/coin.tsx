@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { CoinList } from "../components/list/coinList";
 import Chat from "../containers/chat/chat";
+import RealtimeChat from "../containers/chat/realtimeChat";
 import { CoinChart } from "../containers/coin/coinchart";
 import CoinListTable from "../containers/coin/coinListTable";
 import { CoinColumns } from "../etc/coinColumns";
@@ -48,6 +49,7 @@ export const Coin = ({}) => {
               height={size.height}
             />
             <Chat />
+            <RealtimeChat />
           </div>
         </div>
       </div>

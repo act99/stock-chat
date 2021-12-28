@@ -45,8 +45,8 @@ export const CoinVolume: React.FC<VolumeProps> = ({
   //***Get data done */
 
   let SVG_VOLUME_WIDTH =
-    typeof width === "number" ? (width > 768 ? 768 : width * 1) : 0;
-  let SVG_VOLUME_HEIGHT = 300;
+    typeof width === "number" ? (width > 830 ? 830 : width * 1) : 0;
+  let SVG_VOLUME_HEIGHT = 400;
 
   // let SVG_VOLUME_WIDTH = typeof width === "number" ? width * 1 : 0;
   // let SVG_VOLUME_HEIGHT = typeof height === "number" ? height * 0.3 : 0;

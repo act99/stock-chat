@@ -56,7 +56,7 @@ export const CoinChart: React.FC<Props> = ({ width, height }) => {
 
   //** */ 데이터 배열 순서 : time, high, low, open, volumeFrom volumeTo, close
   return (
-    <div onWheel={dataWheelHandler} style={{ width: 785 }}>
+    <div onWheel={dataWheelHandler} style={{ width: 830 }}>
       <CoinCandle
         width={width}
         height={height}
