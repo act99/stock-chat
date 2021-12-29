@@ -96,29 +96,37 @@ function MessagesContainer() {
   }
 
   return (
-    <div className=" w-80 h-80 bg-yellow-400">
-      <div>
-        {messages?.map(({ message, username, time }, index) => {
-          return (
-            <div key={index}>
+    <div>
+      <div className=" bg-yellow-500 text-black m-5 p-5 overflow-y-scroll h-60">
+        <div className=" text-white">
+          {messages?.map(({ message, username, time }, index) => {
+            return (
               <div key={index}>
-                <span>
-                  {username} - {time}
-                </span>
-                <span>{message}</span>
+                <div key={index}>
+                  <span>
+                    {username} - {time}
+                  </span>
+                  <span>{message}</span>
+                </div>
               </div>
-            </div>
-          );
-        })}
-        <div ref={messageEndRef} />
+            );
+          })}
+          <div ref={messageEndRef} />
+        </div>
       </div>
-      <div>
+      <div className="m-5 p-5 text-white flex flex-col justify-center items-center">
         <textarea
           rows={1}
           placeholder="Tell us what you are thinking"
           ref={newMessageRef}
+          className=" h-24 w-72 bg-yellow-400 text-white p-3"
         />
-        <button onClick={handleSendMessage}>SEND</button>
+        <button
+          onClick={handleSendMessage}
+          className=" bg-yellow-400 text-white rounded-xl w-56 h-10 mt-5"
+        >
+          SEND
+        </button>
       </div>
     </div>
   );
@@ -164,7 +172,7 @@ function RoomsContainer() {
         </button>
       </div>
 
-      <ul className=" bg-yellow-500 text-white m-5 p-5">
+      <ul className=" bg-yellow-500 text-white m-5 p-5 overflow-y-scroll h-20">
         {Object.keys(rooms).map((key) => {
           return (
             <div key={key}>
